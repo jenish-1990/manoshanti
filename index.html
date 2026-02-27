@@ -306,6 +306,11 @@
     .illness-card--ptsd        { background: #9B7E6B; }
     .illness-card--schizo      { background: #B8A090; }
 
+    /* ──────────────── SCROLL OFFSET FOR STICKY HEADER ──────────────── */
+    section[id] {
+      scroll-margin-top: 80px;
+    }
+
     /* ──────────────── CONSULTATION ──────────────── */
     .consultation {
       padding: 80px;
@@ -540,6 +545,7 @@
       .final-cta { padding: 60px 40px; }
       .footer { padding: 48px 40px 24px; }
       .footer__top { grid-template-columns: 1fr 1fr; gap: 32px; }
+      section[id] { scroll-margin-top: 70px; }
     }
 
     /* Mobile */
@@ -577,6 +583,7 @@
       .footer { padding: 40px 24px 20px; }
       .footer__top { grid-template-columns: 1fr; gap: 24px; }
       .footer__bottom { flex-direction: column; gap: 8px; text-align: center; }
+      section[id] { scroll-margin-top: 45px; }
     }
 
     /* Small phones */
@@ -1058,6 +1065,33 @@
     window.addEventListener('scroll', function() {
       header.classList.toggle('scrolled', window.scrollY > 10);
     }, { passive: true });
+
+    // ──── Active nav link on scroll ────
+    (function() {
+      var sections = document.querySelectorAll('section[id]');
+      var navLinks = document.querySelectorAll('.header__nav a, .mobile-nav a:not(.mobile-nav__close)');
+
+      function setActiveLink(id) {
+        navLinks.forEach(function(link) {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            setActiveLink(entry.target.id);
+          }
+        });
+      }, {
+        rootMargin: '-80px 0px -50% 0px',
+        threshold: 0
+      });
+
+      sections.forEach(function(section) {
+        observer.observe(section);
+      });
+    })();
 
     // ──── Init: restore saved preference ────
     (function() {
