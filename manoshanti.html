@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MANOSHANTI — Mental Health Care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;700&family=Noto+Sans+Gujarati:wght@200;400;500;700&family=Noto+Sans+Devanagari:wght@200;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ──────────────── RESET & BASE ──────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans Gujarati', 'Noto Sans Devanagari', sans-serif;
+      background: #E8E9EB;
+      color: #1A1A1A;
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ──────────────── LANGUAGE TOGGLE SYSTEM ──────────────── */
+    body.lang-en .t-gu { display: none !important; }
+    body.lang-gu .t-en { display: none !important; }
+
+    /* ──────────────── UTILITIES ──────────────── */
+    .divider {
+      height: 1px;
+      background: #E0E0E0;
+      width: 100%;
+    }
+
+    .micro-label {
+      font-size: 10px;
+      font-weight: 400;
+      color: #999;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .section-headline {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 200;
+      color: #1A1A1A;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+
+    .section-desc {
+      font-size: clamp(0.875rem, 1.5vw, 1rem);
+      color: #666;
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    .cta-link {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+      cursor: pointer;
+    }
+
+    .cta-link:hover { opacity: 0.7; }
+
+    .cta-link--secondary {
+      font-weight: 500;
+      color: #666;
+    }
+
+    /* ──────────────── HEADER ──────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 80px;
+      position: sticky;
+      top: 0;
+      background: rgba(232, 233, 235, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 50;
+      transition: box-shadow 0.3s;
+    }
+
+    .header.scrolled {
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+
+    .header__brand {
+      font-size: 14px;
+      font-weight: 200;
+      letter-spacing: 3px;
+      color: #1A1A1A;
+    }
+
+    .header__right {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .header__nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .header__nav a {
+      font-size: 12px;
+      font-weight: 500;
+      color: #666;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .header__nav a:hover,
+    .header__nav a.active {
+      color: #1A1A1A;
+      font-weight: 700;
+    }
+
+    /* ──── Language Toggle Button ──── */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      background: #D9DADC;
+      border-radius: 20px;
+      padding: 3px;
+      cursor: pointer;
+      border: none;
+      gap: 0;
+      position: relative;
+    }
+
+    .lang-toggle__option {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 6px 14px;
+      border-radius: 16px;
+      transition: background 0.3s, color 0.3s;
+      color: #888;
+      background: transparent;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .lang-toggle__option.active {
+      background: #1A1A1A;
+      color: #fff;
+    }
+
+    /* ──── Hamburger ──── */
+    .header__hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .header__hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: #1A1A1A;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    /* ──── Mobile Nav Overlay ──── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #E8E9EB;
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .mobile-nav.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mobile-nav a {
+      font-size: 18px;
+      font-weight: 500;
+      color: #666;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .mobile-nav a:hover,
+    .mobile-nav a.active { color: #1A1A1A; font-weight: 700; }
+
+    .mobile-nav__close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: #1A1A1A;
+    }
+
+    .mobile-nav .lang-toggle {
+      margin-top: 16px;
+    }
+
+    /* ──────────────── HERO ──────────────── */
+    .hero {
+      padding: 80px 80px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .hero__headline {
+      font-size: clamp(3rem, 7vw, 5.625rem);
+      font-weight: 200;
+      line-height: 1.05;
+      color: #1A1A1A;
+      letter-spacing: -1px;
+    }
+
+    .hero__subline {
+      font-size: clamp(1rem, 1.8vw, 1.125rem);
+      color: #666;
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    .hero__ctas {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    /* ──────────────── ILLNESSES ──────────────── */
+    .illnesses {
+      padding: 64px 80px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .illnesses__cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .illnesses__row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .illness-card {
+      padding: 32px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 220px;
+      justify-content: space-between;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .illness-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    }
+
+    .illness-card__num { font-size: 10px; color: #fff; opacity: 0.7; }
+    .illness-card__title { font-size: 22px; font-weight: 200; color: #fff; }
+    .illness-card__desc { font-size: 14px; color: #fff; opacity: 0.85; line-height: 1.6; flex: 1; }
+    .illness-card__cta { font-size: 11px; font-weight: 700; color: #fff; letter-spacing: 1px; cursor: pointer; transition: opacity 0.2s; }
+    .illness-card__cta:hover { opacity: 0.7; }
+
+    .illness-card--depression  { background: #C2956A; }
+    .illness-card--anxiety     { background: #A38979; }
+    .illness-card--bipolar     { background: #8F5A3C; }
+    .illness-card--ocd         { background: #7A6B5D; }
+    .illness-card--ptsd        { background: #9B7E6B; }
+    .illness-card--schizo      { background: #B8A090; }
+
+    /* ──────────────── CONSULTATION ──────────────── */
+    .consultation {
+      padding: 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .consultation__left {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .consultation__right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .consult-card {
+      padding: 32px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: transform 0.25s;
+    }
+
+    .consult-card:hover { transform: translateY(-3px); }
+
+    .consult-card__icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .consult-card__icon svg { width: 28px; height: 28px; stroke: #fff; fill: none; stroke-width: 1.5; }
+
+    .consult-card__title { font-size: 20px; font-weight: 200; color: #fff; }
+    .consult-card__desc { font-size: 14px; color: #fff; opacity: 0.85; line-height: 1.6; }
+
+    .consult-card--video   { background: #C2956A; }
+    .consult-card--audio   { background: #A38979; }
+    .consult-card--privacy { background: #8F5A3C; }
+
+    /* ──────────────── SELF-HELP ──────────────── */
+    .selfhelp {
+      padding: 64px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .selfhelp__cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .resource-card {
+      padding: 32px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+      transition: transform 0.25s;
+    }
+
+    .resource-card:hover { transform: translateY(-4px); }
+
+    .resource-card__top {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .resource-card__num { font-size: 64px; font-weight: 200; color: #999; line-height: 1; }
+    .resource-card__title { font-size: 22px; font-weight: 200; color: #fff; }
+    .resource-card__desc { font-size: 14px; color: #999; line-height: 1.6; margin-top: 8px; }
+    .resource-card__cta { font-size: 11px; font-weight: 700; color: #fff; letter-spacing: 1px; margin-top: auto; padding-top: 24px; cursor: pointer; transition: opacity 0.2s; }
+    .resource-card__cta:hover { opacity: 0.7; }
+
+    .resource-card--pamphlets { background: #1A1A1A; }
+    .resource-card--courses   { background: #2A2A2A; }
+    .resource-card--exercises { background: #333; }
+
+    /* ──────────────── LANGUAGE SECTION ──────────────── */
+    .language {
+      padding: 80px;
+      background: #1A1A1A;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .language__headline {
+      font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+      font-weight: 200;
+      color: #E8E9EB;
+      line-height: 1.1;
+    }
+
+    .language__cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .lang-card {
+      padding: 32px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: transform 0.25s;
+    }
+
+    .lang-card:hover { transform: translateY(-3px); }
+
+    .lang-card__label { font-size: 10px; color: #666; letter-spacing: 2px; }
+    .lang-card__text { font-size: 16px; color: #E8E9EB; line-height: 1.7; }
+
+    .lang-card--en { background: #2A2A2A; }
+    .lang-card--gu { background: #333; }
+    .lang-card--hi { background: #3D3D3D; }
+
+    /* ──────────────── FINAL CTA ──────────────── */
+    .final-cta {
+      padding: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      text-align: center;
+    }
+
+    .final-cta .section-headline { text-align: center; }
+    .final-cta .section-desc { text-align: center; }
+
+    .final-cta__buttons {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ──────────────── FOOTER ──────────────── */
+    .footer {
+      padding: 64px 80px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .footer__top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+
+    .footer__brand-name {
+      font-size: 14px;
+      font-weight: 200;
+      letter-spacing: 3px;
+      color: #1A1A1A;
+    }
+
+    .footer__brand-tagline {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+
+    .footer__col-title {
+      font-size: 10px;
+      font-weight: 400;
+      color: #999;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .footer__col a {
+      display: block;
+      font-size: 13px;
+      color: #666;
+      line-height: 2;
+      transition: color 0.2s;
+    }
+
+    .footer__col a:hover { color: #1A1A1A; }
+
+    .footer__divider {
+      height: 1px;
+      background: #E0E0E0;
+    }
+
+    .footer__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer__copyright,
+    .footer__langs {
+      font-size: 10px;
+      color: #999;
+      letter-spacing: 1px;
+    }
+
+    /* ──────────────── RESPONSIVE ──────────────── */
+
+    /* Tablet */
+    @media (max-width: 1024px) {
+      .header { padding: 20px 40px; }
+      .header__nav { gap: 20px; }
+      .hero { padding: 60px 40px 48px; }
+      .illnesses { padding: 48px 40px 0; }
+      .illnesses__row { grid-template-columns: repeat(2, 1fr); }
+      .consultation { padding: 60px 40px; gap: 40px; }
+      .selfhelp { padding: 48px 40px; }
+      .selfhelp__cards { grid-template-columns: repeat(2, 1fr); }
+      .language { padding: 60px 40px; }
+      .language__cards { grid-template-columns: repeat(2, 1fr); }
+      .final-cta { padding: 60px 40px; }
+      .footer { padding: 48px 40px 24px; }
+      .footer__top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .header { padding: 16px 24px; }
+      .header__nav { display: none; }
+      .header__hamburger { display: flex; }
+      .mobile-nav { display: flex; }
+      .header .lang-toggle { display: none; }
+
+      .hero { padding: 48px 24px 40px; gap: 24px; }
+      .hero__headline { font-size: clamp(2.2rem, 10vw, 3.5rem); }
+      .hero__ctas { flex-direction: column; align-items: flex-start; gap: 16px; }
+
+      .illnesses { padding: 40px 24px 0; gap: 32px; }
+      .illnesses__row { grid-template-columns: 1fr; }
+      .illness-card { min-height: 180px; }
+
+      .consultation {
+        padding: 40px 24px;
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .selfhelp { padding: 40px 24px; gap: 32px; }
+      .selfhelp__cards { grid-template-columns: 1fr; }
+
+      .language { padding: 40px 24px; gap: 32px; }
+      .language__headline { font-size: clamp(2rem, 8vw, 3rem); }
+      .language__cards { grid-template-columns: 1fr; }
+
+      .final-cta { padding: 48px 24px; gap: 24px; }
+      .final-cta__buttons { flex-direction: column; gap: 16px; }
+
+      .footer { padding: 40px 24px 20px; }
+      .footer__top { grid-template-columns: 1fr; gap: 24px; }
+      .footer__bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    /* Small phones */
+    @media (max-width: 480px) {
+      .hero__headline { font-size: 2rem; }
+      .section-headline { font-size: 1.8rem; }
+      .language__headline { font-size: 1.8rem; }
+      .resource-card__num { font-size: 48px; }
+      .illness-card { padding: 24px; }
+      .consult-card { padding: 24px; }
+      .resource-card { padding: 24px; min-height: 240px; }
+    }
+  </style>
+</head>
+<body class="lang-en">
+
+  <!-- ════════════ HEADER ════════════ -->
+  <header class="header">
+    <a href="#" class="header__brand">MANOSHANTI</a>
+    <div class="header__right">
+      <nav class="header__nav">
+        <a href="#hero" class="active">
+          <span class="t-en">HOME</span><span class="t-gu">હોમ</span>
+        </a>
+        <a href="#illnesses">
+          <span class="t-en">ILLNESSES</span><span class="t-gu">રોગો</span>
+        </a>
+        <a href="#consultation">
+          <span class="t-en">CONSULTATION</span><span class="t-gu">પરામર્શ</span>
+        </a>
+        <a href="#selfhelp">
+          <span class="t-en">SELF-HELP</span><span class="t-gu">સ્વ-સહાય</span>
+        </a>
+        <a href="#contact">
+          <span class="t-en">CONTACT</span><span class="t-gu">સંપર્ક</span>
+        </a>
+      </nav>
+      <div class="lang-toggle" onclick="toggleLang()">
+        <span class="lang-toggle__option" data-lang="en">EN</span>
+        <span class="lang-toggle__option" data-lang="gu">ગુજ</span>
+      </div>
+    </div>
+    <button class="header__hamburger" onclick="toggleMobileNav()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav__close" onclick="toggleMobileNav()" aria-label="Close">✕</button>
+    <a href="#hero" onclick="toggleMobileNav()">
+      <span class="t-en">HOME</span><span class="t-gu">હોમ</span>
+    </a>
+    <a href="#illnesses" onclick="toggleMobileNav()">
+      <span class="t-en">ILLNESSES</span><span class="t-gu">રોગો</span>
+    </a>
+    <a href="#consultation" onclick="toggleMobileNav()">
+      <span class="t-en">CONSULTATION</span><span class="t-gu">પરામર્શ</span>
+    </a>
+    <a href="#selfhelp" onclick="toggleMobileNav()">
+      <span class="t-en">SELF-HELP</span><span class="t-gu">સ્વ-સહાય</span>
+    </a>
+    <a href="#contact" onclick="toggleMobileNav()">
+      <span class="t-en">CONTACT</span><span class="t-gu">સંપર્ક</span>
+    </a>
+    <div class="lang-toggle" onclick="toggleLang()">
+      <span class="lang-toggle__option" data-lang="en">EN</span>
+      <span class="lang-toggle__option" data-lang="gu">ગુજ</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ════════════ HERO ════════════ -->
+  <section class="hero" id="hero">
+    <span class="micro-label">
+      <span class="t-en">PSYCHIATRY · WELLNESS · TRUST</span>
+      <span class="t-gu">માનસચિકિત્સા · સુખાકારી · વિશ્વાસ</span>
+    </span>
+    <h1 class="hero__headline">
+      <span class="t-en">YOUR MIND<br>DESERVES CARE</span>
+      <span class="t-gu">તમારું મન<br>સંભાળને લાયક છે</span>
+    </h1>
+    <p class="hero__subline">
+      <span class="t-en">Compassionate psychiatric care for every individual.<br>Confidential. Respectful. Accessible — in English, Gujarati, and Hindi.</span>
+      <span class="t-gu">દરેક વ્યક્તિ માટે સહાનુભૂતિપૂર્ણ માનસિક સારવાર.<br>ગોપનીય. આદરપૂર્ણ. સુલભ — અંગ્રેજી, ગુજરાતી અને હિન્દીમાં.</span>
+    </p>
+    <div class="hero__ctas">
+      <a href="#contact" class="cta-link">
+        <span class="t-en">BOOK A CONSULTATION ↗</span>
+        <span class="t-gu">પરામર્શ બુક કરો ↗</span>
+      </a>
+      <a href="#selfhelp" class="cta-link cta-link--secondary">
+        <span class="t-en">EXPLORE RESOURCES ↗</span>
+        <span class="t-gu">સંસાધનો જુઓ ↗</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ════════════ ILLNESSES ════════════ -->
+  <section class="illnesses" id="illnesses">
+    <span class="micro-label">
+      <span class="t-en">UNDERSTANDING MENTAL HEALTH</span>
+      <span class="t-gu">માનસિક સ્વાસ્થ્ય સમજો</span>
+    </span>
+    <h2 class="section-headline">
+      <span class="t-en">KNOWLEDGE<br>IS THE FIRST STEP</span>
+      <span class="t-gu">જ્ઞાન એ<br>પ્રથમ પગલું છે</span>
+    </h2>
+    <p class="section-desc">
+      <span class="t-en">Learn about common psychiatric conditions — what they are, how they affect you, and when to seek help.</span>
+      <span class="t-gu">સામાન્ય માનસિક સ્થિતિઓ વિશે જાણો — તે શું છે, તે તમને કેવી રીતે અસર કરે છે, અને ક્યારે મદદ લેવી.</span>
+    </p>
+
+    <div class="illnesses__cards">
+      <div class="illnesses__row">
+        <!-- Depression -->
+        <div class="illness-card illness-card--depression">
+          <span class="illness-card__num">01</span>
+          <h3 class="illness-card__title">
+            <span class="t-en">Depression</span><span class="t-gu">ડિપ્રેશન</span>
+          </h3>
+          <p class="illness-card__desc">
+            <span class="t-en">Persistent sadness, loss of interest, and fatigue that affects daily life. Treatable with the right support.</span>
+            <span class="t-gu">સતત ઉદાસી, રસ ગુમાવવો અને થાક જે દૈનિક જીવનને અસર કરે છે. યોગ્ય સારવાર સાથે ઉપચાર શક્ય છે.</span>
+          </p>
+          <a href="#" class="illness-card__cta">
+            <span class="t-en">LEARN MORE ↗</span><span class="t-gu">વધુ જાણો ↗</span>
+          </a>
+        </div>
+        <!-- Anxiety -->
+        <div class="illness-card illness-card--anxiety">
+          <span class="illness-card__num">02</span>
+          <h3 class="illness-card__title">
+            <span class="t-en">Anxiety Disorders</span><span class="t-gu">ચિંતા વિકૃતિઓ</span>
+          </h3>
+          <p class="illness-card__desc">
+            <span class="t-en">Excessive worry, panic attacks, and social fear. Understanding your anxiety is the first step to managing it.</span>
+            <span class="t-gu">અતિશય ચિંતા, ગભરાટના હુમલા અને સામાજિક ભય. તમારી ચિંતા સમજવી એ તેને નિયંત્રિત કરવાનું પ્રથમ પગલું છે.</span>
+          </p>
+          <a href="#" class="illness-card__cta">
+            <span class="t-en">LEARN MORE ↗</span><span class="t-gu">વધુ જાણો ↗</span>
+          </a>
+        </div>
+        <!-- Bipolar -->
+        <div class="illness-card illness-card--bipolar">
+          <span class="illness-card__num">03</span>
+          <h3 class="illness-card__title">
+            <span class="t-en">Bipolar Disorder</span><span class="t-gu">બાયપોલર ડિસઓર્ડર</span>
+          </h3>
+          <p class="illness-card__desc">
+            <span class="t-en">Extreme mood swings between highs and lows. With proper care, stability and balance are achievable.</span>
+            <span class="t-gu">ઉચ્ચ અને નીચા વચ્ચે અત્યંત મૂડ સ્વિંગ. યોગ્ય સંભાળ સાથે, સ્થિરતા અને સંતુલન પ્રાપ્ત કરી શકાય છે.</span>
+          </p>
+          <a href="#" class="illness-card__cta">
+            <span class="t-en">LEARN MORE ↗</span><span class="t-gu">વધુ જાણો ↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="illnesses__row">
+        <!-- OCD -->
+        <div class="illness-card illness-card--ocd">
+          <span class="illness-card__num">04</span>
+          <h3 class="illness-card__title">OCD</h3>
+          <p class="illness-card__desc">
+            <span class="t-en">Obsessive thoughts and compulsive behaviours that feel impossible to control. Relief is possible with proper treatment.</span>
+            <span class="t-gu">જુસ્સાદાર વિચારો અને ફરજિયાત વર્તન જે નિયંત્રિત કરવું અશક્ય લાગે છે. યોગ્ય સારવાર સાથે રાહત શક્ય છે.</span>
+          </p>
+          <a href="#" class="illness-card__cta">
+            <span class="t-en">LEARN MORE ↗</span><span class="t-gu">વધુ જાણો ↗</span>
+          </a>
+        </div>
+        <!-- PTSD -->
+        <div class="illness-card illness-card--ptsd">
+          <span class="illness-card__num">05</span>
+          <h3 class="illness-card__title">PTSD</h3>
+          <p class="illness-card__desc">
+            <span class="t-en">Trauma leaves deep marks on the mind. With compassionate care, healing and reclaiming your life is possible.</span>
+            <span class="t-gu">આઘાત મન પર ઊંડી છાપ છોડે છે. સહાનુભૂતિપૂર્ણ સંભાળ સાથે, ઉપચાર અને જીવન પુનઃપ્રાપ્ત કરવું શક્ય છે.</span>
+          </p>
+          <a href="#" class="illness-card__cta">
+            <span class="t-en">LEARN MORE ↗</span><span class="t-gu">વધુ જાણો ↗</span>
+          </a>
+        </div>
+        <!-- Schizophrenia -->
+        <div class="illness-card illness-card--schizo">
+          <span class="illness-card__num">06</span>
+          <h3 class="illness-card__title">
+            <span class="t-en">Schizophrenia</span><span class="t-gu">સ્કિઝોફ્રેનિયા</span>
+          </h3>
+          <p class="illness-card__desc">
+            <span class="t-en">A complex condition affecting perception and thought. Early intervention and ongoing support make a real difference.</span>
+            <span class="t-gu">દ્રષ્ટિ અને વિચારને અસર કરતી જટિલ સ્થિતિ. પ્રારંભિક હસ્તક્ષેપ અને સતત ટેકો ખૂબ ફરક પાડે છે.</span>
+          </p>
+          <a href="#" class="illness-card__cta">
+            <span class="t-en">LEARN MORE ↗</span><span class="t-gu">વધુ જાણો ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ════════════ CONSULTATION ════════════ -->
+  <section class="consultation" id="consultation">
+    <div class="consultation__left">
+      <span class="micro-label">
+        <span class="t-en">PRIVATE CONSULTATION</span>
+        <span class="t-gu">ખાનગી પરામર્શ</span>
+      </span>
+      <h2 class="section-headline">
+        <span class="t-en">YOUR PRIVACY<br>IS SACRED</span>
+        <span class="t-gu">તમારી ગોપનીયતા<br>પવિત્ર છે</span>
+      </h2>
+      <p class="section-desc">
+        <span class="t-en">Every consultation is completely confidential. Your identity, your struggles, and your journey remain between you and your doctor.</span>
+        <span class="t-gu">દરેક પરામર્શ સંપૂર્ણ ગોપનીય છે. તમારી ઓળખ, તમારી મુશ્કેલીઓ અને તમારી યાત્રા ફક્ત તમારા અને તમારા ડૉક્ટર વચ્ચે રહે છે.</span>
+      </p>
+      <a href="#contact" class="cta-link">
+        <span class="t-en">SCHEDULE A CALL ↗</span>
+        <span class="t-gu">કૉલ શેડ્યૂલ કરો ↗</span>
+      </a>
+    </div>
+    <div class="consultation__right">
+      <!-- Video -->
+      <div class="consult-card consult-card--video">
+        <div class="consult-card__icon">
+          <svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+        </div>
+        <h3 class="consult-card__title">
+          <span class="t-en">Video Consultation</span>
+          <span class="t-gu">વિડિયો પરામર્શ</span>
+        </h3>
+        <p class="consult-card__desc">
+          <span class="t-en">Face-to-face sessions from the comfort of your home. See your doctor, build trust, heal together.</span>
+          <span class="t-gu">તમારા ઘરના આરામથી સામ-સામે સત્રો. તમારા ડૉક્ટરને જુઓ, વિશ્વાસ બાંધો, સાથે મળીને ઉપચાર કરો.</span>
+        </p>
+      </div>
+      <!-- Audio -->
+      <div class="consult-card consult-card--audio">
+        <div class="consult-card__icon">
+          <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z"/></svg>
+        </div>
+        <h3 class="consult-card__title">
+          <span class="t-en">Audio Consultation</span>
+          <span class="t-gu">ઑડિયો પરામર્શ</span>
+        </h3>
+        <p class="consult-card__desc">
+          <span class="t-en">Prefer a voice call? Speak freely, in your language, at a time that suits you.</span>
+          <span class="t-gu">વોઇસ કૉલ પસંદ કરો? તમારી ભાષામાં, તમને અનુકૂળ સમયે મુક્તપણે વાત કરો.</span>
+        </p>
+      </div>
+      <!-- Privacy -->
+      <div class="consult-card consult-card--privacy">
+        <div class="consult-card__icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="consult-card__title">
+          <span class="t-en">100% Confidential</span>
+          <span class="t-gu">100% ગોપનીય</span>
+        </h3>
+        <p class="consult-card__desc">
+          <span class="t-en">Your information is safe. No data is shared. Nobody will know. Doctor-patient privilege is absolute.</span>
+          <span class="t-gu">તમારી માહિતી સુરક્ષિત છે. કોઈ ડેટા શેર થતો નથી. કોઈને ખબર નહીં પડે. ડૉક્ટર-દર્દી ગોપનીયતા સંપૂર્ણ છે.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ════════════ SELF-HELP ════════════ -->
+  <section class="selfhelp" id="selfhelp">
+    <span class="micro-label">
+      <span class="t-en">SELF-HELP RESOURCES</span>
+      <span class="t-gu">સ્વ-સહાય સંસાધનો</span>
+    </span>
+    <h2 class="section-headline">
+      <span class="t-en">HEAL AT<br>YOUR OWN PACE</span>
+      <span class="t-gu">તમારી ગતિએ<br>ઉપચાર કરો</span>
+    </h2>
+    <p class="section-desc">
+      <span class="t-en">Access guided pamphlets, self-paced courses, and practical exercises designed to support your mental health journey.</span>
+      <span class="t-gu">તમારા માનસિક સ્વાસ્થ્યને ટેકો આપવા માટે રચાયેલ માર્ગદર્શિત પુસ્તિકાઓ, સ્વ-ગતિ અભ્યાસક્રમો અને વ્યવહારુ કસરતો મેળવો.</span>
+    </p>
+
+    <div class="selfhelp__cards">
+      <!-- Pamphlets -->
+      <div class="resource-card resource-card--pamphlets">
+        <div class="resource-card__top">
+          <span class="resource-card__num">12+</span>
+          <h3 class="resource-card__title">
+            <span class="t-en">Pamphlets</span><span class="t-gu">પુસ્તિકાઓ</span>
+          </h3>
+          <p class="resource-card__desc">
+            <span class="t-en">Downloadable guides on depression, anxiety, stress management, sleep hygiene, and more. Print-ready, in Gujarati and English.</span>
+            <span class="t-gu">ડિપ્રેશન, ચિંતા, તણાવ વ્યવસ્થાપન, ઊંઘની સ્વચ્છતા અને વધુ પર ડાઉનલોડ કરી શકાય તેવી માર્ગદર્શિકાઓ. પ્રિન્ટ-રેડી, ગુજરાતી અને અંગ્રેજીમાં.</span>
+          </p>
+        </div>
+        <a href="#" class="resource-card__cta">
+          <span class="t-en">DOWNLOAD FREE ↗</span><span class="t-gu">મફત ડાઉનલોડ કરો ↗</span>
+        </a>
+      </div>
+      <!-- Courses -->
+      <div class="resource-card resource-card--courses">
+        <div class="resource-card__top">
+          <span class="resource-card__num">06</span>
+          <h3 class="resource-card__title">
+            <span class="t-en">Self-Paced Courses</span><span class="t-gu">સ્વ-ગતિ અભ્યાસક્રમો</span>
+          </h3>
+          <p class="resource-card__desc">
+            <span class="t-en">Structured programs for managing stress, building resilience, and understanding your emotions — complete at your own pace.</span>
+            <span class="t-gu">તણાવ વ્યવસ્થાપન, સ્થિતિસ્થાપકતા નિર્માણ અને તમારી લાગણીઓ સમજવા માટે સંરચિત કાર્યક્રમો — તમારી ગતિએ પૂર્ણ કરો.</span>
+          </p>
+        </div>
+        <a href="#" class="resource-card__cta">
+          <span class="t-en">START LEARNING ↗</span><span class="t-gu">શીખવાનું શરૂ કરો ↗</span>
+        </a>
+      </div>
+      <!-- Exercises -->
+      <div class="resource-card resource-card--exercises">
+        <div class="resource-card__top">
+          <span class="resource-card__num">∞</span>
+          <h3 class="resource-card__title">
+            <span class="t-en">Daily Exercises</span><span class="t-gu">દૈનિક કસરતો</span>
+          </h3>
+          <p class="resource-card__desc">
+            <span class="t-en">Breathing techniques, mindfulness practices, and journaling prompts you can do every day to nurture your well-being.</span>
+            <span class="t-gu">શ્વાસ લેવાની ટેકનિક, માઇન્ડફુલનેસ પ્રેક્ટિસ અને જર્નલિંગ પ્રોમ્પ્ટ્સ જે તમે દરરોજ કરી શકો છો.</span>
+          </p>
+        </div>
+        <a href="#" class="resource-card__cta">
+          <span class="t-en">EXPLORE EXERCISES ↗</span><span class="t-gu">કસરતો જુઓ ↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ════════════ LANGUAGE SECTION ════════════ -->
+  <section class="language">
+    <span class="micro-label" style="color: #666;">
+      <span class="t-en">ACCESSIBLE TO ALL</span>
+      <span class="t-gu">બધા માટે સુલભ</span>
+    </span>
+    <h2 class="language__headline">
+      <span class="t-en">EVERY LANGUAGE.<br>EVERY PERSON.<br>EVERY STORY.</span>
+      <span class="t-gu">દરેક ભાષા.<br>દરેક વ્યક્તિ.<br>દરેક વાર્તા.</span>
+    </h2>
+
+    <div class="language__cards">
+      <div class="lang-card lang-card--en">
+        <span class="lang-card__label">ENGLISH</span>
+        <p class="lang-card__text">Your mental health matters. You are not alone in this journey.</p>
+      </div>
+      <div class="lang-card lang-card--gu">
+        <span class="lang-card__label">ગુજરાતી</span>
+        <p class="lang-card__text">તમારું માનસિક સ્વાસ્થ્ય મહત્વનું છે. આ યાત્રામાં તમે એકલા નથી.</p>
+      </div>
+      <div class="lang-card lang-card--hi">
+        <span class="lang-card__label">हिन्दी</span>
+        <p class="lang-card__text">आपका मानसिक स्वास्थ्य महत्वपूर्ण है। इस यात्रा में आप अकेले नहीं हैं।</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ FINAL CTA ════════════ -->
+  <section class="final-cta" id="contact">
+    <span class="micro-label">
+      <span class="t-en">TAKE THE FIRST STEP</span>
+      <span class="t-gu">પ્રથમ પગલું ભરો</span>
+    </span>
+    <h2 class="section-headline">
+      <span class="t-en">HEALING BEGINS WITH<br>A SINGLE CONVERSATION</span>
+      <span class="t-gu">ઉપચાર એક<br>વાતચીતથી શરૂ થાય છે</span>
+    </h2>
+    <p class="section-desc">
+      <span class="t-en">Book a confidential consultation today — in English, Gujarati, or Hindi.<br>Video call · Audio call · Completely confidential</span>
+      <span class="t-gu">આજે જ ગોપનીય પરામર્શ બુક કરો — અંગ્રેજી, ગુજરાતી, કે હિન્દીમાં.<br>વિડિયો કૉલ · ઑડિયો કૉલ · સંપૂર્ણ ગોપનીય</span>
+    </p>
+    <div class="final-cta__buttons">
+      <a href="#" class="cta-link">
+        <span class="t-en">BOOK CONSULTATION ↗</span>
+        <span class="t-gu">પરામર્શ બુક કરો ↗</span>
+      </a>
+      <a href="#" class="cta-link cta-link--secondary">
+        <span class="t-en">CALL NOW ↗</span>
+        <span class="t-gu">હમણાં કૉલ કરો ↗</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div>
+        <div class="footer__brand-name">MANOSHANTI</div>
+        <p class="footer__brand-tagline">
+          <span class="t-en">Compassionate psychiatric care<br>for every mind, in every language.</span>
+          <span class="t-gu">દરેક મન માટે, દરેક ભાષામાં<br>સહાનુભૂતિપૂર્ણ માનસિક સારવાર.</span>
+        </p>
+      </div>
+      <div class="footer__col">
+        <div class="footer__col-title">
+          <span class="t-en">SERVICES</span><span class="t-gu">સેવાઓ</span>
+        </div>
+        <a href="#"><span class="t-en">Video Consultation</span><span class="t-gu">વિડિયો પરામર્શ</span></a>
+        <a href="#"><span class="t-en">Audio Consultation</span><span class="t-gu">ઑડિયો પરામર્શ</span></a>
+        <a href="#"><span class="t-en">Self-Help Courses</span><span class="t-gu">સ્વ-સહાય અભ્યાસક્રમો</span></a>
+        <a href="#"><span class="t-en">Pamphlets</span><span class="t-gu">પુસ્તિકાઓ</span></a>
+      </div>
+      <div class="footer__col">
+        <div class="footer__col-title">
+          <span class="t-en">CONDITIONS</span><span class="t-gu">સ્થિતિઓ</span>
+        </div>
+        <a href="#"><span class="t-en">Depression</span><span class="t-gu">ડિપ્રેશન</span></a>
+        <a href="#"><span class="t-en">Anxiety</span><span class="t-gu">ચિંતા</span></a>
+        <a href="#"><span class="t-en">Bipolar Disorder</span><span class="t-gu">બાયપોલર ડિસઓર્ડર</span></a>
+        <a href="#">OCD · PTSD</a>
+      </div>
+      <div class="footer__col">
+        <div class="footer__col-title">
+          <span class="t-en">LEGAL</span><span class="t-gu">કાનૂની</span>
+        </div>
+        <a href="#"><span class="t-en">Privacy Policy</span><span class="t-gu">ગોપનીયતા નીતિ</span></a>
+        <a href="#"><span class="t-en">Terms of Service</span><span class="t-gu">સેવાની શરતો</span></a>
+        <a href="#"><span class="t-en">Disclaimer</span><span class="t-gu">અસ્વીકરણ</span></a>
+      </div>
+    </div>
+    <div class="footer__divider"></div>
+    <div class="footer__bottom">
+      <span class="footer__copyright">
+        <span class="t-en">© 2026 MANOSHANTI. ALL RIGHTS RESERVED.</span>
+        <span class="t-gu">© 2026 MANOSHANTI. બધા અધિકારો સુરક્ષિત.</span>
+      </span>
+      <span class="footer__langs">
+        <span class="t-en">INDIA · ENGLISH · ગુજરાતી · हिन्दी</span>
+        <span class="t-gu">ભારત · ENGLISH · ગુજરાતી · हिन्दी</span>
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    // ──── Language Toggle ────
+    function setLang(lang) {
+      document.body.className = 'lang-' + lang;
+      document.documentElement.lang = lang === 'gu' ? 'gu' : 'en';
+      document.title = lang === 'gu'
+        ? 'MANOSHANTI — માનસિક સ્વાસ્થ્ય સેવા'
+        : 'MANOSHANTI — Mental Health Care';
+
+      // Update all toggle buttons (header + mobile nav)
+      document.querySelectorAll('.lang-toggle__option').forEach(function(opt) {
+        opt.classList.toggle('active', opt.dataset.lang === lang);
+      });
+
+      // Remember preference
+      try { localStorage.setItem('manoshanti-lang', lang); } catch(e) {}
+    }
+
+    function toggleLang() {
+      var current = document.body.classList.contains('lang-gu') ? 'gu' : 'en';
+      setLang(current === 'en' ? 'gu' : 'en');
+    }
+
+    // ──── Mobile Nav ────
+    function toggleMobileNav() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+
+    // ──── Sticky header shadow on scroll ────
+    var header = document.querySelector('.header');
+    window.addEventListener('scroll', function() {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // ──── Init: restore saved preference ────
+    (function() {
+      var saved = 'en';
+      try { saved = localStorage.getItem('manoshanti-lang') || 'en'; } catch(e) {}
+      setLang(saved);
+    })();
+  </script>
+</body>
+</html>
